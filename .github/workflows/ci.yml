@@ -223,7 +223,10 @@ jobs:
   python-build-and-test:
     name: Python Package Build & Unit Tests
     needs: build-and-test
-    dependsOn: Linux
+    if
+    strategy:
+      fail-fast: false
+      matrix: jobs.build-and-test.strategy.matrix
       condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), contains(variables['Build.SourceBranch'], 'test_deploy')))
       timeoutInMinutes: 60
       pool:
